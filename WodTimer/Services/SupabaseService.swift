@@ -6,10 +6,24 @@ final class SupabaseService {
 
     let client: SupabaseClient
 
+    static var isConfigured: Bool {
+        AppConstants.supabaseURL != "YOUR_SUPABASE_URL" &&
+        AppConstants.supabaseAnonKey != "YOUR_SUPABASE_ANON_KEY"
+    }
+
     private init() {
+        let url: String
+        let key: String
+        if Self.isConfigured {
+            url = AppConstants.supabaseURL
+            key = AppConstants.supabaseAnonKey
+        } else {
+            url = "https://placeholder.supabase.co"
+            key = "placeholder"
+        }
         client = SupabaseClient(
-            supabaseURL: URL(string: AppConstants.supabaseURL)!,
-            supabaseKey: AppConstants.supabaseAnonKey
+            supabaseURL: URL(string: url)!,
+            supabaseKey: key
         )
     }
 

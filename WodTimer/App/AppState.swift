@@ -10,7 +10,12 @@ final class AppState {
     var selectedTimerType: TimerType?
     var showSettings: Bool = false
 
-    func checkPremiumStatus() {
-        // StoreKit will update this
+    init() {
+        Task { await checkPremiumStatus() }
+    }
+
+    func checkPremiumStatus() async {
+        await StoreService.shared.checkEntitlements()
+        isPremium = StoreService.shared.isPremium
     }
 }
